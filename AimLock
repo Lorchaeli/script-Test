@@ -1,5 +1,6 @@
 --loadstring(game:HttpGet("https://raw.githubusercontent.com/Lorchaeli/script-Test/refs/heads/main/AimLock"))()
 
+
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
@@ -14,7 +15,7 @@ local fovSize = 100
 local showFovCircle = false
 local targetPart = "Head" 
 local aimSpeed = 0.15 
-local checkWalls = true
+local checkWalls = false
 local checkTeam = false
 local yOffset = 60 
 
@@ -456,6 +457,10 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
         end
     end
 end)
+
+
+
+
 
 
 
