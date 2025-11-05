@@ -1,13 +1,7 @@
-
-
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
-local LocalPlayer = Players.LocalPlayer
-local Camera = workspace.CurrentCamera
-local HttpService = game:GetService("HttpService")
 local TweenService = game:GetService("TweenService")
-
 
 local player = Players.LocalPlayer
 local camera = workspace.CurrentCamera
@@ -325,7 +319,7 @@ function silentAim()
                         sameTeam = true
                     end
                 end
-                if sameTeam then continue end
+               
 
                 local targetCenter = getTargetCenterFunc(targetPartObj)
                 local screenPos, onScreen = camera:WorldToViewportPoint(targetCenter)
@@ -450,30 +444,16 @@ if showFovCircle then createFovCircle() end
 
 print("Silent Aim Script with FOV Circle and R6/R15 target parts loaded!")
 
--- 🧩 Toggle Silent Aim with Alt + S
+
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
     if gameProcessed then return end
-    if input.KeyCode == Enum.KeyCode.S and UserInputService:IsKeyDown(Enum.KeyCode.LeftAlt) then
-        isSilentAimEnabled = not isSilentAimEnabled
-
-        -- อัปเดตปุ่มใน GUI ให้ตรงสถานะ
-        toggleSilentAimButton.Text = isSilentAimEnabled and "Disable Silent Aim" or "Enable Silent Aim"
-
-        if isSilentAimEnabled then
-            if fovConnection then fovConnection:Disconnect() end
-            fovConnection = RunService.RenderStepped:Connect(updateFovCircle)
-
-            if silentAimConnection then silentAimConnection:Disconnect() end
-            silentAimConnection = RunService.RenderStepped:Connect(silentAim)
-
-            if showFovCircle and not fovCircle then createFovCircle() end
-            print("Silent Aim: Enabled 🟢")
-        else
-            if fovConnection then fovConnection:Disconnect() fovConnection=nil end
-            if silentAimConnection then silentAimConnection:Disconnect() silentAimConnection=nil end
-            if fovCircle then fovCircle.Visible = false end
-            print("Silent Aim: Disabled 🔴")
+    if input.KeyCode == Enum.KeyCode.L and UserInputService:IsKeyDown(Enum.KeyCode.LeftAlt) then
+        if screenGui then
+            screenGui.Enabled = not screenGui.Enabled
+            print("Silent Aim GUI:", screenGui.Enabled and "Visible 🟢" or "Hidden 🔴")
         end
     end
 end)
+
+
 
