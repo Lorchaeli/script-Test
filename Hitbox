@@ -1,6 +1,6 @@
 -- pcall to avoid the script breaking on low level executors (e.g. Solara or any Xeno paste)
 
-getgenv().HBE = true -- HBE Variable, use this to control whether the hitboxes are active or not.
+getgenv().HBE = true
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
