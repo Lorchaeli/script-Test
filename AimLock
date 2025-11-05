@@ -14,7 +14,7 @@ local fovSize = 100
 local showFovCircle = false
 local targetPart = "Head" 
 local aimSpeed = 0.15 
-local checkWalls = false
+local checkWalls = true
 local checkTeam = false
 local yOffset = 60 
 
