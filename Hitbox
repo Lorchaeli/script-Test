@@ -34,7 +34,7 @@ end)
 
 
 local CHAR_PARENT = GetCharParent()
-local HITBOX_SIZE = Vector3.new(6,6,6)
+local HITBOX_SIZE = Vector3.new(5,5,5)
 local HITBOX_COLOUR = Color3.fromRGB(255,0,0)
 
 
