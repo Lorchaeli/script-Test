@@ -62,7 +62,7 @@ end
 local autoBhop = false
 local floatingBhopButton
 
--- ปุ่มลอย
+-- สร้างปุ่มลอย
 local function createBhopFloatingButton()
     if floatingBhopButton then return end
     floatingBhopButton = Instance.new("TextButton")
@@ -81,6 +81,7 @@ local function createBhopFloatingButton()
     end)
 end
 
+-- ลบปุ่มลอย
 local function removeBhopFloatingButton()
     if floatingBhopButton then
         floatingBhopButton:Destroy()
@@ -88,7 +89,7 @@ local function removeBhopFloatingButton()
     end
 end
 
--- Toggle ปกติใน MainTab
+-- Toggle ปกติ
 MainTab:Toggle({
     Title="ออโต้กระโดด (ปกติ)",
     Desc="เด้งขึ้นอัตโนมัติแบบไม่แตะพื้น",
@@ -98,7 +99,7 @@ MainTab:Toggle({
     end
 })
 
--- Toggle ปุ่มลอย
+-- Toggle แบบปุ่มลอย
 MainTab:Toggle({
     Title="ออโต้กระโดด (ปุ่มลอย)",
     Desc="แสดงปุ่มลอยสำหรับ Auto Bhop",
@@ -108,10 +109,23 @@ MainTab:Toggle({
     end
 })
 
--- ระบบ Auto Bhop แบบไม่แตะพื้น
+-- ✅ เพิ่มส่วนกดปุ่ม J เพื่อเปิด/ปิด Auto Bhop
+local UserInputService = game:GetService("UserInputService")
+UserInputService.InputBegan:Connect(function(input, isProcessed)
+    if not isProcessed and input.KeyCode == Enum.KeyCode.J then
+        autoBhop = not autoBhop
+        print("Auto Bhop:", autoBhop and "ON" or "OFF")
+        if floatingBhopButton then
+            floatingBhopButton.Text = autoBhop and "Auto Bhop: ON" or "Auto Bhop: OFF"
+        end
+    end
+end)
+
+-- วนลูปทำงาน Auto Bhop
 task.spawn(function()
     local RunService = game:GetService("RunService")
-    local rayDistance = 4 -- ระยะใกล้พื้นที่จะทำให้เด้ง
+    local rayDistance = 2 
+    local player = game.Players.LocalPlayer
     while true do
         RunService.Heartbeat:Wait()
         if autoBhop then
@@ -120,14 +134,11 @@ task.spawn(function()
                 local humanoid = char:FindFirstChildOfClass("Humanoid")
                 local root = char:FindFirstChild("HumanoidRootPart")
                 if humanoid and root then
-                    -- ยิง Ray ลงไปดูว่ามีพื้นใกล้แค่ไหน
                     local rayOrigin = root.Position
                     local rayDir = Vector3.new(0, -rayDistance, 0)
                     local ray = Ray.new(rayOrigin, rayDir)
                     local hit, pos = workspace:FindPartOnRay(ray, char)
-
                     if hit then
-                        -- กระโดดทันทีเพื่อไม่ให้แตะพื้น
                         humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
                     end
                 end
@@ -135,6 +146,7 @@ task.spawn(function()
         end
     end
 end)
+
 
 -- =========================
 -- Lag Switch
